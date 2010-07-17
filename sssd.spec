@@ -16,7 +16,7 @@
 Name:       sssd
 Version:    1.2.1
 Release:    %mkrel 1
-Group:      Applications/System
+Group:      System/Libraries
 Summary:    System Security Services Daemon
 License:    GPLv3+
 URL:        http://fedorahosted.org/sssd/
@@ -69,7 +69,7 @@ services for projects like FreeIPA.
 
 %package client
 Summary: SSSD Client libraries for NSS and PAM
-Group: Applications/System
+Group: System/Libraries
 License: LGPLv3+
 
 %description client
