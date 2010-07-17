@@ -36,11 +36,11 @@ Requires(preun):  initscripts chkconfig
 Requires(postun): /sbin/service
 
 BuildRequires: popt-devel
-BuildRequires: libtalloc-devel
-BuildRequires: libtevent-devel
-BuildRequires: libtdb-devel
-BuildRequires: libldb-devel
-BuildRequires: libsemanage-devel
+BuildRequires: talloc-devel
+BuildRequires: tevent-devel
+BuildRequires: tdb-devel
+BuildRequires: ldb-devel
+BuildRequires: semanage-devel
 BuildRequires: dbus-devel
 BuildRequires: openldap-devel
 BuildRequires: pam-devel
