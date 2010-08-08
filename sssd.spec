@@ -14,7 +14,7 @@
 %define _disable_ld_no_undefined 1
 
 Name:       sssd
-Version:    1.2.1
+Version:    1.3.0
 Release:    %mkrel 1
 Group:      System/Libraries
 Summary:    System Security Services Daemon
@@ -272,7 +272,7 @@ rm -rf %{buildroot}
 %{_sbindir}/sss_groupmod
 %{_sbindir}/sss_groupshow
 %{_libexecdir}/%{servicename}/
-%{_libdir}/%{name}
+%dir %{_libdir}/%{name}
 %{_libdir}/ldb/memberof.so
 %{_libdir}/krb5/plugins/libkrb5/sssd_krb5_locator_plugin.so
 %dir %{sssdstatedir}
@@ -347,8 +347,8 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 %doc common/collection/COPYING
 %doc common/collection/COPYING.LESSER
-%{_libdir}/libcollection.so.1
-%{_libdir}/libcollection.so.1.0.0
+%{_libdir}/libcollection.so.2
+%{_libdir}/libcollection.so.2.0.0
 
 %files -n libcollection-devel
 %defattr(-,root,root,-)
@@ -364,8 +364,8 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 %doc common/ini/COPYING
 %doc common/ini/COPYING.LESSER
-%{_libdir}/libini_config.so.1
-%{_libdir}/libini_config.so.1.0.0
+%{_libdir}/libini_config.so.2
+%{_libdir}/libini_config.so.2.0.0
 
 %files -n libini_config-devel
 %defattr(-,root,root,-)
