@@ -40,6 +40,7 @@ BuildRequires: talloc-devel
 BuildRequires: tevent-devel
 BuildRequires: tdb-devel
 BuildRequires: ldb-devel
+BuildRequires: libnl-devel
 BuildRequires: semanage-devel
 BuildRequires: dbus-devel
 BuildRequires: openldap-devel
