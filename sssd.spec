@@ -79,7 +79,7 @@ service.
 
 %package -n libdhash
 Summary: Dynamic hash table
-Group: Development/Libraries
+Group: Development/C
 Version: %{dhash_version}
 License: LGPLv3+
 
@@ -89,7 +89,7 @@ time properties
 
 %package -n libdhash-devel
 Summary: Development files for libdhash
-Group: Development/Libraries
+Group: Development/C
 Version: %{dhash_version}
 Requires: libdhash = %{dhash_version}-%{release}
 License: LGPLv3+
@@ -100,7 +100,7 @@ time properties
 
 %package -n libpath_utils
 Summary: Filesystem Path Utilities
-Group: Development/Libraries
+Group: Development/C
 Version: %{path_utils_version}
 License: LGPLv3+
 
@@ -109,7 +109,7 @@ Utility functions to manipulate filesystem pathnames
 
 %package -n libpath_utils-devel
 Summary: Development files for libpath_utils
-Group: Development/Libraries
+Group: Development/C
 Version: %{path_utils_version}
 Requires: libpath_utils = %{path_utils_version}-%{release}
 License: LGPLv3+
@@ -119,7 +119,7 @@ Utility functions to manipulate filesystem pathnames
 
 %package -n libcollection
 Summary: Collection data-type for C
-Group: Development/Libraries
+Group: Development/C
 Version: %{collection_version}
 License: LGPLv3+
 
@@ -129,7 +129,7 @@ and serialization
 
 %package -n libcollection-devel
 Summary: Development files for libcollection
-Group: Development/Libraries
+Group: Development/C
 Version: %{collection_version}
 Requires: libcollection = %{collection_version}-%{release}
 License: LGPLv3+
@@ -140,7 +140,7 @@ and serialization
 
 %package -n libini_config
 Summary: INI file parser for C
-Group: Development/Libraries
+Group: Development/C
 Version: %{ini_config_version}
 Requires: libcollection = %{collection_version}-%{release}
 License: LGPLv3+
@@ -151,7 +151,7 @@ structure
 
 %package -n libini_config-devel
 Summary: Development files for libini_config
-Group: Development/Libraries
+Group: Development/C
 Version: %{ini_config_version}
 Requires: libini_config = %{ini_config_version}-%{release}
 License: LGPLv3+
@@ -162,7 +162,7 @@ structure
 
 %package -n libref_array
 Summary: A refcounted array for C
-Group: Development/Libraries
+Group: Development/C
 Version: %{refarray_version}
 License: LGPLv3+
 
@@ -171,7 +171,7 @@ A dynamically-growing, reference-counted array
 
 %package -n libref_array-devel
 Summary: Development files for libref_array
-Group: Development/Libraries
+Group: Development/C
 Version: %{refarray_version}
 Requires: libref_array = %{refarray_version}-%{release}
 License: LGPLv3+
