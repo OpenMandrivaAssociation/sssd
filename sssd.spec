@@ -42,6 +42,7 @@ BuildRequires: pcre-devel
 BuildRequires: xsltproc
 BuildRequires: libxml2
 BuildRequires: docbook-style-xsl
+BuildRequires: docbook-dtd44-xml
 BuildRequires: krb5-devel
 BuildRequires: c-ares-devel
 BuildRequires: python-devel
