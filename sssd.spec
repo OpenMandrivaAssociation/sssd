@@ -185,7 +185,7 @@ rm -rf %{buildroot}
 %{_mandir}/man8/sss_obfuscate.8*
 %{python_sitearch}/pysss.so
 %{python_sitelib}/*.py*
-%{python_sitelib}/SSSDConfig-1-py2.6.egg-info
+%{python_sitelib}/SSSDConfig-1-%pyver.egg-info
 
 %files client
 %defattr(-,root,root,-)
