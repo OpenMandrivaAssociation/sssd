@@ -9,7 +9,7 @@
 
 Name:       sssd
 Version:    1.4.0
-Release:    %mkrel 1
+Release:    %mkrel 2
 Group:      System/Libraries
 Summary:    System Security Services Daemon
 License:    GPLv3+
