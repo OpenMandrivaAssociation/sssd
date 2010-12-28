@@ -8,7 +8,7 @@
 %define _disable_ld_no_undefined 1
 
 Name:       sssd
-Version:    1.4.1
+Version:    1.5.0
 Release:    %mkrel 1
 Group:      System/Libraries
 Summary:    System Security Services Daemon
@@ -128,6 +128,9 @@ rm -f \
     %{buildroot}/%{_libdir}/krb5/plugins/libkrb5/sssd_krb5_locator_plugin.la \
     %{buildroot}/%{python_sitearch}/pysss.la \
     %{buildroot}/%{_libdir}/libref_array.la \
+
+# remove non-standard man page
+rm -f %{buildroot}%{_mandir}/cs/man8/sss_groupdel.8*
 
 %clean
 rm -rf %{buildroot}
