@@ -128,10 +128,10 @@ rm -f %{buildroot}%{_mandir}/cs/man8/sss_groupdel.8*
 rm -rf %{buildroot}
 
 %post
-%post_service %{servicename}
+%_post_service %{servicename}
 
 %preun
-%preun_service %{servicename}
+%_preun_service %{servicename}
 
 %files -f sssd.lang
 %defattr(-,root,root,-)
