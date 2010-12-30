@@ -16,16 +16,8 @@ License:    GPLv3+
 URL:        http://fedorahosted.org/sssd/
 Source0:    https://fedorahosted.org/released/sssd/%{name}-%{version}.tar.gz
 Patch0:     sssd-1.2.0-fix-linking.patch
-
-Requires: libldb >= 0.9.3
-Requires: libtdb >= 1.1.3
 Requires: sssd-client = %{version}-%{release}
 Requires: cyrus-sasl-gssapi
-Requires: keyutils-libs
-Requires(post): python
-Requires(preun):  initscripts chkconfig
-Requires(postun): /sbin/service
-
 BuildRequires: popt-devel
 BuildRequires: talloc-devel
 BuildRequires: tevent-devel
