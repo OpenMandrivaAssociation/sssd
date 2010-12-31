@@ -9,7 +9,7 @@
 
 Name:       sssd
 Version:    1.5.0
-Release:    %mkrel 2
+Release:    %mkrel 3
 Group:      System/Libraries
 Summary:    System Security Services Daemon
 License:    GPLv3+
@@ -17,7 +17,7 @@ URL:        http://fedorahosted.org/sssd/
 Source0:    https://fedorahosted.org/released/sssd/%{name}-%{version}.tar.gz
 Patch0:     sssd-1.2.0-fix-linking.patch
 Requires: sssd-client = %{version}-%{release}
-Requires: cyrus-sasl-gssapi
+Requires: sasl-plug-gssapi
 BuildRequires: popt-devel
 BuildRequires: talloc-devel
 BuildRequires: tevent-devel
