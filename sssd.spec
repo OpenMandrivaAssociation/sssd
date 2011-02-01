@@ -8,8 +8,8 @@
 %define _disable_ld_no_undefined 1
 
 Name:       sssd
-Version:    1.5.0
-Release:    %mkrel 3
+Version:    1.5.1
+Release:    %mkrel 1
 Group:      System/Libraries
 Summary:    System Security Services Daemon
 License:    GPLv3+
@@ -178,6 +178,7 @@ rm -rf %{buildroot}
 %{_mandir}/man8/sss_usermod.8*
 %{_mandir}/man8/sssd_krb5_locator_plugin.8*
 %{_mandir}/man8/sss_obfuscate.8*
+%{_mandir}/uk/man8/sss_groupadd.8*
 %{python_sitearch}/pysss.so
 %{python_sitelib}/*.py*
 %{python_sitelib}/SSSDConfig-1-py%pyver.egg-info
