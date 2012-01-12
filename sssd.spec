@@ -104,7 +104,7 @@ service.
     --disable-rpath
 %make
 
-#%check
+%check
 %__make check
 
 %install
