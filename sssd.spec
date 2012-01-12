@@ -4,12 +4,15 @@
 %define pipepath %{sssdstatedir}/pipes
 %define pubconfpath %{sssdstatedir}/pubconf
 
+%define major 0
+%define libname %mklibname sssd %major
+
 %define Werror_cflags %nil
 %define _disable_ld_no_undefined 1
 
 Name:       sssd
-Version:    1.5.1
-Release:    %mkrel 1
+Version:    1.7.0
+Release:    1
 Group:      System/Libraries
 Summary:    System Security Services Daemon
 License:    GPLv3+
@@ -47,8 +50,6 @@ BuildRequires: collection-devel
 BuildRequires: ini_config-devel
 BuildRequires: path_utils-devel
 
-BuildRoot:  %{_tmppath}/%{name}-%{version}
-
 %description
 Provides a set of daemons to manage access to remote directories and
 authentication mechanisms. It provides an NSS and PAM interface toward
@@ -64,6 +65,26 @@ License: LGPLv3+
 %description client
 Provides the libraries needed by the PAM and NSS stacks to connect to the SSSD
 service.
+
+%package devel
+Summary: SSSD development files
+Group: Development/C
+License: LGPLv3+
+Requires: %libname = %{version}-%{release}
+
+%description devel
+Provides the development files needed by %{name}
+
+
+%package -n %libname
+Summary: %summary
+Group:  System/Libraries
+Obsoletes: %{_lib}sssd < %{version}
+
+%description -n %libname
+Provides the libraries needed by the PAM and NSS stacks to connect to the SSSD
+service.
+
 
 %prep
 %setup -q
@@ -82,12 +103,10 @@ service.
     --disable-rpath
 %make
 
-%check
+#%check
 %__make check
 
 %install
-rm -rf %{buildroot}
-
 %makeinstall_std
 
 # Prepare language files
@@ -95,7 +114,7 @@ rm -rf %{buildroot}
 
 # Copy default sssd.conf file
 mkdir -p %{buildroot}/%{_sysconfdir}/sssd
-install -m600 src/examples/sssd.conf %{buildroot}%{_sysconfdir}/sssd/sssd.conf
+install -m600 src/examples/sssd-example.conf %{buildroot}%{_sysconfdir}/sssd/sssd.conf
 install -m400 src/config/etc/sssd.api.conf %{buildroot}%{_sysconfdir}/sssd/sssd.api.conf
 install -m400 src/config/etc/sssd.api.d/* %{buildroot}%{_sysconfdir}/sssd/sssd.api.d/
 
@@ -119,13 +138,11 @@ rm -f \
     %{buildroot}/%{_libdir}/sssd/libsss_simple.la \
     %{buildroot}/%{_libdir}/krb5/plugins/libkrb5/sssd_krb5_locator_plugin.la \
     %{buildroot}/%{python_sitearch}/pysss.la \
+    %{buildroot}/%{python_sitearch}/pyhbac.la \
     %{buildroot}/%{_libdir}/libref_array.la \
 
 # remove non-standard man page
 rm -f %{buildroot}%{_mandir}/cs/man8/sss_groupdel.8*
-
-%clean
-rm -rf %{buildroot}
 
 %post
 %_post_service %{servicename}
@@ -144,6 +161,8 @@ rm -rf %{buildroot}
 %{_sbindir}/sss_groupadd
 %{_sbindir}/sss_groupdel
 %{_sbindir}/sss_groupmod
+%{_sbindir}/sss_cache
+%{_sbindir}/sss_debuglevel
 %{_sbindir}/sss_groupshow
 %{_sbindir}/sss_obfuscate
 %{_libexecdir}/%{servicename}/
@@ -168,20 +187,39 @@ rm -rf %{buildroot}
 %{_mandir}/man5/sssd-krb5.5*
 %{_mandir}/man5/sssd-ldap.5*
 %{_mandir}/man5/sssd-simple.5*
+
 %{_mandir}/man8/sssd.8*
-%{_mandir}/man8/sss_groupadd.8*
-%{_mandir}/man8/sss_groupdel.8*
 %{_mandir}/man8/sss_groupmod.8*
 %{_mandir}/man8/sss_groupshow.8*
 %{_mandir}/man8/sss_useradd.8*
 %{_mandir}/man8/sss_userdel.8*
 %{_mandir}/man8/sss_usermod.8*
+
+%{_mandir}/nl/man8/sss_groupmod.8*
+%{_mandir}/pt/man8/sss_groupdel.8*
+%{_mandir}/pt/man8/sss_groupmod.8*
+%{_mandir}/es/man8/sss_groupmod.8*
+
+%{_mandir}/man8/sss_cache.8.*
+%{_mandir}/man8/sss_debuglevel.8.*
+%{_mandir}/man8/sss_groupadd.8*
+%{_mandir}/man8/sss_groupdel.8*
+
 %{_mandir}/man8/sssd_krb5_locator_plugin.8*
 %{_mandir}/man8/sss_obfuscate.8*
-%{_mandir}/uk/man8/sss_groupadd.8*
 %{python_sitearch}/pysss.so
+%{python_sitearch}/pyhbac.so
 %{python_sitelib}/*.py*
-%{python_sitelib}/SSSDConfig-1-py%pyver.egg-info
+%{python_sitelib}/SSSDConfig-1-py*
+
+%files devel
+%{_includedir}/ipa_hbac.h
+%{_libdir}/libipa_hbac.so
+%{_libdir}/pkgconfig/ipa_hbac.pc
+
+
+%files -n %libname
+%{_libdir}/libipa_hbac.so.%{major}*
 
 %files client
 %defattr(-,root,root,-)
