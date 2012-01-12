@@ -22,6 +22,7 @@ Patch0:     sssd-1.2.0-fix-linking.patch
 Requires: sssd-client = %{version}-%{release}
 Requires: sasl-plug-gssapi
 BuildRequires: popt-devel
+BuildRequires: unistring-devel
 BuildRequires: talloc-devel
 BuildRequires: tevent-devel
 BuildRequires: tdb-devel
