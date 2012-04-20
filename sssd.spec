@@ -21,7 +21,7 @@
 
 Name:       sssd
 Version:    1.8.2
-Release:    2
+Release:    1
 Group:      System/Libraries
 Summary:    System Security Services Daemon
 License:    GPLv3+
@@ -93,7 +93,7 @@ use with ldap_default_authtok_type = obfuscated_password.
 
 %package -n %libhbac
 Summary: %summary
-Group:  System/C
+Group:  System/Libraries
 Obsoletes: %{_lib}sssd < %{version}
 
 %description -n %libhbac
