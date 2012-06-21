@@ -20,7 +20,7 @@
 %define _disable_ld_no_undefined 1
 
 Name:       sssd
-Version:    1.8.2
+Version:    1.8.4
 Release:    1
 Group:      System/Libraries
 Summary:    System Security Services Daemon
