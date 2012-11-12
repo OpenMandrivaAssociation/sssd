@@ -1,0 +1,41 @@
+diff -Naur -x '*~' sssd-1.2.0/src/Makefile.am sssd-1.2.0-fix-linking//src/Makefile.am
+--- sssd-1.2.0/src/Makefile.am	2010-05-24 20:52:31.000000000 +0200
++++ sssd-1.2.0-fix-linking//src/Makefile.am	2010-05-30 13:37:24.000000000 +0200
+@@ -748,6 +748,7 @@
+     $(LDAP_CFLAGS) \
+     $(KRB5_CFLAGS)
+ libsss_ldap_la_LIBADD = \
++    $(TALLOC_LIBS) \
+     $(OPENLDAP_LIBS) \
+     $(KRB5_LIBS)
+ libsss_ldap_la_LDFLAGS = \
+@@ -788,8 +789,10 @@
+     $(AM_CFLAGS) \
+     $(DHASH_CFLAGS)
+ libsss_krb5_la_LIBADD = \
++    $(TALLOC_LIBS) \
++    $(TEVENT_LIBS) \
+     $(DHASH_LIBS) \
+-    $(KEYUITLS_LIB) \
++    $(KEYUTILS_LIB) \
+     $(KRB5_LIBS)
+ libsss_krb5_la_LDFLAGS = \
+     -version-info 1:0:0 \
+@@ -830,6 +833,8 @@
+     $(DHASH_CFLAGS) \
+     $(KRB5_CFLAGS)
+ libsss_ipa_la_LIBADD = \
++    $(TALLOC_LIBS) \
++    $(TEVENT_LIBS) \
+     $(OPENLDAP_LIBS) \
+     $(DHASH_LIBS) \
+     $(KEYUTILS_LIBS) \
+@@ -886,7 +891,7 @@
+     ldb_modules/memberof.c
+ memberof_la_CFLAGS = \
+     $(AM_CFLAGS)
+-memberof_la_LIBADD = $(LDB_LIBS) $(DHASH_LIBS)
++memberof_la_LIBADD = $(TALLOC_LIBS) $(LDB_LIBS) $(DHASH_LIBS)
+ memberof_la_LDFLAGS = \
+     -avoid-version \
+     -module
