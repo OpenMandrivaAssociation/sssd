@@ -1,2 +1,3 @@
 sources:
-  "sssd-1.8.5.tar.gz:"	e3c88ddcef451f4a4bf37c6c5238602721ef91b1
+  "sssd-1.8.5.tar.gz": e3c88ddcef451f4a4bf37c6c5238602721ef91b1
+  sssd-1.9.2.tar.gz: 871ff9d20dc5784cf475a028d71d8af058dcd4e8

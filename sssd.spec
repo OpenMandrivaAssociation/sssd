@@ -16,11 +16,15 @@
 %define libautofsdevel %mklibname -d sss_autofs %major
 %define libhbacdevel %mklibname -d ipa_hbac %major
 
+
+%define libidmap %mklibname sss_idmap %major
+%define libidmapdevel %mklibname -d sss_idmap %major
+
 %define Werror_cflags %nil
 %define _disable_ld_no_undefined 1
 
 Name:       sssd
-Version:    1.8.5
+Version:    1.9.2
 Release:    1
 Group:      System/Libraries
 Summary:    System Security Services Daemon
@@ -30,27 +34,28 @@ Source0:    https://fedorahosted.org/released/sssd/%{name}-%{version}.tar.gz
 Patch0:     sssd-1.2.0-fix-linking.patch
 Requires: sssd-client = %{version}-%{release}
 Requires: sasl-plug-gssapi
-BuildRequires: popt-devel
+BuildRequires: pkgconfig(popt)
 BuildRequires: libunistring-devel
 BuildRequires: talloc-devel
 BuildRequires: tevent-devel
 BuildRequires: tdb-devel
 BuildRequires: ldb-devel
-BuildRequires: libnl-devel
+BuildRequires: pkgconfig(libnl-3.0)
 BuildRequires: semanage-devel
 BuildRequires: dbus-devel
 BuildRequires: openldap-devel
 BuildRequires: pam-devel
-BuildRequires: nss-devel
+BuildRequires: pkgconfig(nss)
 BuildRequires: nspr-devel
-BuildRequires: pcre-devel
+BuildRequires: pkgconfig(libpcre)
+BuildRequires: pkgconfig(gio-2.0)
 BuildRequires: xsltproc
 BuildRequires: libxml2
 BuildRequires: docbook-style-xsl
 BuildRequires: docbook-dtd44-xml
 BuildRequires: krb5-devel
 BuildRequires: c-ares-devel
-BuildRequires: python-devel
+BuildRequires: pkgconfig(python)
 BuildRequires: check-devel
 BuildRequires: doxygen
 BuildRequires: keyutils-devel
@@ -109,6 +114,15 @@ License: LGPLv3+
 %description -n %libautofs
 A utility library to allow communication between Autofs and SSSD
 
+
+%package -n %libidmap
+Summary: A library to allow communication between idmap and SSSD
+Group: Development/C
+License: LGPLv3+
+
+%description -n %libautofs
+A utility library to allow communication between Autofs and SSSD
+
 %package -n %libsudo
 Summary: A library to allow communication between SUDO and SSSD
 Group: Development/C
@@ -153,6 +167,13 @@ Requires: %{libhbac} = %{version}-%{release}
 The libipa_hbac-python contains the bindings so that libipa_hbac can be
 used by Python applications.
 
+%package -n %libidmapdevel
+Summary: A library to allow communication between idmap and SSSD
+Group: Development/C
+License: LGPLv3+
+
+%description -n %libidmapdevel
+A utility library to allow communication between Autofs and SSSD
 
 %prep
 %setup -q
@@ -167,6 +188,8 @@ used by Python applications.
     --with-init-dir=%{_initrddir} \
     --with-krb5-rcache-dir=%{_localstatedir}/cache/krb5rcache \
     --enable-nsslibdir=/%{_lib} \
+    --with-python-bindings \
+    --with-sudo \
     --enable-pammoddir=/%{_lib}/security \
     --disable-static \
     --disable-rpath \
@@ -269,6 +292,7 @@ cat sssd_tools.lang
 %{_libdir}/%{name}/libsss_ldap.so
 %{_libdir}/%{name}/libsss_proxy.so
 %{_libdir}/%{name}/libsss_simple.so
+%{_libdir}/%{name}/libsss_ad.so
 
 %{ldb_modulesdir}/memberof.so
 
@@ -295,9 +319,13 @@ cat sssd_tools.lang
 %{_mandir}/man5/sssd-krb5.5*
 %{_mandir}/man5/sssd-ldap.5*
 %{_mandir}/man5/sssd-simple.5*
+%{_mandir}/man5/sssd-sudo.5*
+%{_mandir}/man5/sssd-ad.5*
 %{_mandir}/man8/sssd.8*
 %{python_sitearch}/pysss.so
-%{python_sitelib}/*.py*
+%{python_sitearch}/pysss_murmur.so
+%dir %{python_sitelib}/SSSDConfig/*.py*
+
 
 %files -n %libhbac
 %{_libdir}/libipa_hbac.so.%{major}*
@@ -316,15 +344,24 @@ cat sssd_tools.lang
 %files -n %libautofs
 %{_libdir}/sssd/modules/libsss_autofs.so*
 
+%files -n %libidmap
+%{_libdir}/libsss_idmap.so.*
+
 %files -n %libsudodevel
+%{_includedir}/sss_idmap.h
+%{_libdir}/libsss_idmap.so
+
+%files -n %libidmapdevel
 %{_includedir}/sss_sudo.h
+%{_libdir}/pkgconfig/sss_idmap.pc
 %{_libdir}/libsss_sudo.so
-%{_libdir}/pkgconfig/libsss_sudo.pc
+#%{_libdir}/pkgconfig/libsss_sudo.pc
 
 
 %files tools -f sssd_tools.lang
 %doc COPYING
 %{_sbindir}/sss_useradd
+%{_sbindir}/sss_seed
 %{_sbindir}/sss_userdel
 %{_sbindir}/sss_usermod
 %{_sbindir}/sss_groupadd
@@ -344,6 +381,7 @@ cat sssd_tools.lang
 %{_mandir}/man8/sss_obfuscate.8*
 %{_mandir}/man8/sss_cache.8*
 %{_mandir}/man8/sss_debuglevel.8*
+%{_mandir}/man8/sss_seed.8*
 
 
 %files client -f sssd_client.lang
