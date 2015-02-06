@@ -25,7 +25,7 @@
 
 Name:       sssd
 Version:    1.9.2
-Release:    1
+Release:    2
 Group:      System/Libraries
 Summary:    System Security Services Daemon
 License:    GPLv3+
