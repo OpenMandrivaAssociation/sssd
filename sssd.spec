@@ -179,9 +179,10 @@ A utility library to allow communication between Autofs and SSSD
 %setup -q
 #patch0 -p 1
 #autoreconf
+find . -name "*.py" |xargs 2to3 -w
 
 %build
-%configure2_5x \
+%configure \
     --with-db-path=%{dbpath} \
     --with-pipe-path=%{pipepath} \
     --with-pubconf-path=%{pubconfpath} \
