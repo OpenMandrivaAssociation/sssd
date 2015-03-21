@@ -55,7 +55,7 @@ BuildRequires: docbook-style-xsl
 BuildRequires: docbook-dtd44-xml
 BuildRequires: krb5-devel
 BuildRequires: c-ares-devel
-BuildRequires: pkgconfig(python)
+BuildRequires: python2-devel
 BuildRequires: check-devel
 BuildRequires: doxygen
 BuildRequires: keyutils-devel
@@ -179,9 +179,10 @@ A utility library to allow communication between Autofs and SSSD
 %setup -q
 #patch0 -p 1
 #autoreconf
-find . -name "*.py" |xargs 2to3 -w
 
 %build
+ln -s %{_bindir}/python2 python
+export PATH=`pwd`:$PATH
 %configure \
     --with-db-path=%{dbpath} \
     --with-pipe-path=%{pipepath} \
@@ -323,16 +324,16 @@ cat sssd_tools.lang
 %{_mandir}/man5/sssd-sudo.5*
 %{_mandir}/man5/sssd-ad.5*
 %{_mandir}/man8/sssd.8*
-%{python_sitearch}/pysss.so
-%{python_sitearch}/pysss_murmur.so
-%dir %{python_sitelib}/SSSDConfig/*.py*
+%{python2_sitearch}/pysss.so
+%{python2_sitearch}/pysss_murmur.so
+%dir %{python2_sitelib}/SSSDConfig/*.py*
 
 
 %files -n %libhbac
 %{_libdir}/libipa_hbac.so.%{major}*
 
 %files -n libhbac-python
-%{python_sitearch}/pyhbac.so
+%{python2_sitearch}/pyhbac.so
 
 %files -n %libhbacdevel
 %{_includedir}/ipa_hbac.h
