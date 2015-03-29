@@ -8,62 +8,64 @@
 %define pubconfpath %{sssdstatedir}/pubconf
 
 %define major 0
-%define libhbac %mklibname ipa_hbac %major
-%define libsudo %mklibname sss_sudo %major
-%define libautofs %mklibname sss_autofs %major
+%define libhbac %mklibname ipa_hbac %{major}
+%define libsudo %mklibname sss_sudo %{major}
+%define libautofs %mklibname sss_autofs %{major}
 
-%define libsudodevel %mklibname -d sss_sudo %major 
-%define libautofsdevel %mklibname -d sss_autofs %major
-%define libhbacdevel %mklibname -d ipa_hbac %major
+%define libsudodevel %mklibname -d sss_sudo %{major}
+%define libautofsdevel %mklibname -d sss_autofs %{major}
+%define libhbacdevel %mklibname -d ipa_hbac %{major}
 
-
-%define libidmap %mklibname sss_idmap %major
-%define libidmapdevel %mklibname -d sss_idmap %major
+%define libidmap %mklibname sss_idmap %{major}
+%define libidmapdevel %mklibname -d sss_idmap %{major}
 
 %define Werror_cflags %nil
 %define _disable_ld_no_undefined 1
 
-Name:       sssd
-Version:    1.9.2
-Release:    2
-Group:      System/Libraries
-Summary:    System Security Services Daemon
-License:    GPLv3+
-URL:        http://fedorahosted.org/sssd/
-Source0:    https://fedorahosted.org/released/sssd/%{name}-%{version}.tar.gz
-Patch0:     sssd-1.2.0-fix-linking.patch
-Requires: sssd-client = %{version}-%{release}
-Requires: sasl-plug-gssapi
-BuildRequires: pkgconfig(popt)
-BuildRequires: libunistring-devel
-BuildRequires: talloc-devel
-BuildRequires: tevent-devel
-BuildRequires: tdb-devel
-BuildRequires: ldb-devel
-BuildRequires: pkgconfig(libnl-3.0)
-BuildRequires: semanage-devel
-BuildRequires: dbus-devel
-BuildRequires: openldap-devel
-BuildRequires: pam-devel
-BuildRequires: pkgconfig(nss)
-BuildRequires: nspr-devel
-BuildRequires: pkgconfig(libpcre)
-BuildRequires: pkgconfig(gio-2.0)
-BuildRequires: xsltproc
-BuildRequires: libxml2
-BuildRequires: docbook-style-xsl
-BuildRequires: docbook-dtd44-xml
-BuildRequires: krb5-devel
-BuildRequires: c-ares-devel
-BuildRequires: python2-devel
-BuildRequires: check-devel
-BuildRequires: doxygen
-BuildRequires: keyutils-devel
-BuildRequires: bind-utils
-BuildRequires: dhash-devel
-BuildRequires: collection-devel
-BuildRequires: ini_config-devel
-BuildRequires: path_utils-devel
+Summary:	System Security Services Daemon
+Name:		sssd
+Version:	1.9.6
+Release:	1
+License:	GPLv3+
+Group:		System/Libraries
+Url:		http://fedorahosted.org/sssd/
+Source0:	https://fedorahosted.org/released/sssd/%{name}-%{version}.tar.gz
+Source100:	%{name}.rpmlintrc
+BuildRequires:	bind-utils
+BuildRequires:	docbook-dtd44-xml
+BuildRequires:	docbook-style-xsl
+BuildRequires:	doxygen
+BuildRequires:	xsltproc
+BuildRequires:	keyutils-devel
+BuildRequires:	libunistring-devel
+BuildRequires:	openldap-devel
+BuildRequires:	pam-devel
+BuildRequires:	semanage-devel
+BuildRequires:	pkgconfig(check)
+BuildRequires:	pkgconfig(collection)
+BuildRequires:	pkgconfig(dbus-1)
+BuildRequires:	pkgconfig(dhash)
+BuildRequires:	pkgconfig(gio-2.0)
+# before update to 1.12.4 be sure that ini_config-devel is >= 1.1.1. Sflo
+BuildRequires:	pkgconfig(ini_config)
+BuildRequires:	pkgconfig(krb5)
+BuildRequires:	pkgconfig(ldb)
+BuildRequires:	pkgconfig(libcares)
+BuildRequires:	pkgconfig(libnl-3.0)
+BuildRequires:	pkgconfig(libpcre)
+BuildRequires:	pkgconfig(nspr)
+BuildRequires:	pkgconfig(nss)
+BuildRequires:	pkgconfig(path_utils)
+BuildRequires:	pkgconfig(popt)
+BuildRequires:	pkgconfig(python2)
+BuildRequires:	pkgconfig(talloc)
+BuildRequires:	pkgconfig(tdb)
+BuildRequires:	pkgconfig(tevent)
+
+
+Requires:	sssd-client2 = %{EVRD}
+Requires:	sasl-plug-gssapi
+Obsoletes:	sssd-client
 
 %description
 Provides a set of daemons to manage access to remote directories and
@@ -72,213 +74,11 @@ the system and a pluggable backend system to connect to multiple different
 account sources. It is also the basis to provide client auditing and policy
 services for projects like FreeIPA.
 
-%package client
-Summary: SSSD Client libraries for NSS and PAM
-Group: System/Libraries
-License: LGPLv3+
-
-%description client
-Provides the libraries needed by the PAM and NSS stacks to connect to the SSSD
-service.
-
-%package tools
-Summary: Userspace tools for use with the SSSD
-Group:	System/Base
-License: GPLv3+
-Requires: sssd = %{version}-%{release}
-
-%description tools
-Provides userspace tools for manipulating users, groups, and nested groups in
-SSSD when using id_provider = local in /etc/sssd/sssd.conf.
-
-Also provides a userspace tool for generating an obfuscated LDAP password for
-use with ldap_default_authtok_type = obfuscated_password.
-
-
-
-%package -n %libhbac
-Summary: %summary
-Group:  System/Libraries
-Obsoletes: %{_lib}sssd < %{version}
-
-%description -n %libhbac
-Provides the libraries needed by the PAM and NSS stacks to connect to the SSSD
-service.
-
-
-%package -n %libautofs
-Summary: A library to allow communication between Autofs and SSSD
-Group: Development/C
-License: LGPLv3+
-
-%description -n %libautofs
-A utility library to allow communication between Autofs and SSSD
-
-
-%package -n %libidmap
-Summary: A library to allow communication between idmap and SSSD
-Group: Development/C
-License: LGPLv3+
-
-%description -n %libautofs
-A utility library to allow communication between Autofs and SSSD
-
-%package -n %libsudo
-Summary: A library to allow communication between SUDO and SSSD
-Group: Development/C
-License: LGPLv3+
-
-%description -n %libsudo
-A utility library to allow communication between SUDO and SSSD
-
-
-%package -n %libhbacdevel
-Summary: FreeIPA HBAC Evaluator library
-Group: Development/C
-License: LGPLv3+
-
-%description -n %libhbacdevel
-Utility library to validate FreeIPA HBAC rules for authorization requests
-
-%package -n %libautofsdevel
-Summary: A library to allow communication between Autofs and SSSD
-Group: Development/C
-License: LGPLv3+
-
-%description -n %libautofsdevel
-A utility library to allow communication between Autofs and SSSD
-
-%package -n %libsudodevel
-Summary: A library to allow communication between SUDO and SSSD
-Group: Development/C
-License: LGPLv3+
-
-%description -n %libsudodevel
-A utility library to allow communication between SUDO and SSSD
-
-
-%package -n libhbac-python
-Summary: Python bindings for the FreeIPA HBAC Evaluator library
-Group: Development/C
-License: LGPLv3+
-Requires: %{libhbac} = %{version}-%{release}
-
-%description -n libhbac-python
-The libipa_hbac-python contains the bindings so that libipa_hbac can be
-used by Python applications.
-
-%package -n %libidmapdevel
-Summary: A library to allow communication between idmap and SSSD
-Group: Development/C
-License: LGPLv3+
-
-%description -n %libidmapdevel
-A utility library to allow communication between Autofs and SSSD
-
-%prep
-%setup -q
-#patch0 -p 1
-#autoreconf
-
-%build
-ln -s %{_bindir}/python2 python
-export PATH=`pwd`:$PATH
-%configure \
-    --with-db-path=%{dbpath} \
-    --with-pipe-path=%{pipepath} \
-    --with-pubconf-path=%{pubconfpath} \
-    --with-init-dir=%{_initrddir} \
-    --with-krb5-rcache-dir=%{_localstatedir}/cache/krb5rcache \
-    --enable-nsslibdir=/%{_lib} \
-    --with-python-bindings \
-    --with-sudo \
-    --enable-pammoddir=/%{_lib}/security \
-    --disable-static \
-    --disable-rpath \
-    --with-test-dir=/dev/shm \
-    --enable-all-experimental-features
-
-%make
-
-%install
-
-%makeinstall_std
-
-# Prepare language files
-/usr/lib/rpm/find-lang.sh $RPM_BUILD_ROOT sssd
-
-# Prepare empty config file
-mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/sssd
-touch $RPM_BUILD_ROOT/%{_sysconfdir}/sssd/sssd.conf
-
-# Copy default logrotate file
-mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/logrotate.d
-install -m644 src/examples/logrotate $RPM_BUILD_ROOT%{_sysconfdir}/logrotate.d/sssd
-
-# Make sure SSSD is able to run on read-only root
-mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/rwtab.d
-install -m644 src/examples/rwtab $RPM_BUILD_ROOT%{_sysconfdir}/rwtab.d/sssd
-
-# Replace sysv init script with systemd unit file
-rm -f $RPM_BUILD_ROOT/%{_initrddir}/%{name}
-mkdir -p $RPM_BUILD_ROOT/%{_unitdir}/
-cp src/sysv/systemd/sssd.service $RPM_BUILD_ROOT/%{_unitdir}/
-
-# Remove .la files created by libtool
-find $RPM_BUILD_ROOT -name "*.la" -exec rm -f {} \;
-
-# Suppress developer-only documentation
-rm -Rf ${RPM_BUILD_ROOT}/%{_docdir}/%{name}/doc
-
-# Older versions of rpmbuild can only handle one -f option
-# So we need to append to the sssd.lang file
-for file in `ls $RPM_BUILD_ROOT/%{python_sitelib}/*.egg-info 2> /dev/null`
-do
-    echo %{python_sitelib}/`basename $file` >> sssd.lang
-done
-
-touch sssd_tools.lang
-for man in `find $RPM_BUILD_ROOT/%{_mandir}/??/man?/ -type f | sed -e "s#$RPM_BUILD_ROOT/%{_mandir}/##"`
-do
-    lang=`echo $man | cut -c 1-2`
-    case `basename $man` in
-        sss_*)
-            echo \%lang\(${lang}\) \%{_mandir}/${man}\* >> sssd_tools.lang
-            ;;
-        pam_sss*)
-            echo \%lang\(${lang}\) \%{_mandir}/${man}\* >> sssd_client.lang
-            ;;
-        sssd_krb5_locator_plugin*)
-            echo \%lang\(${lang}\) \%{_mandir}/${man}\* >> sssd_client.lang
-            ;;
-        *)
-            echo \%lang\(${lang}\) \%{_mandir}/${man}\* >> sssd.lang
-            ;;
-    esac
-done
-
-# Print these to the rpmbuild log
-echo "sssd.lang:"
-cat sssd.lang
-
-echo "sssd_client.lang:"
-cat sssd_client.lang
-
-echo "sssd_tools.lang:"
-cat sssd_tools.lang
-
-%post
-%_post_service %{servicename}
-
-%preun
-%_preun_service %{servicename}
-
 %files -f sssd.lang
 %doc COPYING
 %doc src/examples/sssd-example.conf
 %{_unitdir}/sssd.service
 %{_sbindir}/sssd
-
 %{_libexecdir}/%{servicename}/krb5_child
 %{_libexecdir}/%{servicename}/ldap_child
 %{_libexecdir}/%{servicename}/proxy_child
@@ -288,19 +88,15 @@ cat sssd_tools.lang
 %{_libexecdir}/%{servicename}/sssd_autofs
 %{_libexecdir}/%{servicename}/sssd_ssh
 %{_libexecdir}/%{servicename}/sssd_sudo
-
 %{_libdir}/%{name}/libsss_ipa.so
 %{_libdir}/%{name}/libsss_krb5.so
 %{_libdir}/%{name}/libsss_ldap.so
 %{_libdir}/%{name}/libsss_proxy.so
 %{_libdir}/%{name}/libsss_simple.so
 %{_libdir}/%{name}/libsss_ad.so
-
 %{ldb_modulesdir}/memberof.so
-
 %{_bindir}/sss_ssh_authorizedkeys
 %{_bindir}/sss_ssh_knownhostsproxy
-
 %dir %{sssdstatedir}
 %dir %{_localstatedir}/cache/krb5rcache
 %attr(700,root,root) %dir %{dbpath}
@@ -328,37 +124,45 @@ cat sssd_tools.lang
 %{python2_sitearch}/pysss_murmur.so
 %dir %{python2_sitelib}/SSSDConfig/*.py*
 
+%post
+%_post_service %{servicename}
 
-%files -n %libhbac
-%{_libdir}/libipa_hbac.so.%{major}*
+%preun
+%_preun_service %{servicename}
 
-%files -n libhbac-python
-%{python2_sitearch}/pyhbac.so
+#----------------------------------------------------------------------------
 
-%files -n %libhbacdevel
-%{_includedir}/ipa_hbac.h
-%{_libdir}/libipa_hbac.so
-%{_libdir}/pkgconfig/ipa_hbac.pc
+%package client2
+Summary:	SSSD Client libraries for NSS and PAM
+License:	LGPLv3+
+Group:		System/Libraries
 
-%files -n %libsudo
-%{_libdir}/libsss_sudo.so.*
+%description client2
+Provides the libraries needed by the PAM and NSS stacks to connect to the SSSD
+service.
 
-%files -n %libautofs
-%{_libdir}/sssd/modules/libsss_autofs.so*
+%files client2 -f sssd_client.lang
+%doc src/sss_client/COPYING src/sss_client/COPYING.LESSER
+/%{_lib}/libnss_sss.so.2
+/%{_lib}/security/pam_sss.so
+%{_libdir}/krb5/plugins/libkrb5/sssd_krb5_locator_plugin.so
+%{_mandir}/man8/pam_sss.8*
+%{_mandir}/man8/sssd_krb5_locator_plugin.8*
 
-%files -n %libidmap
-%{_libdir}/libsss_idmap.so.*
+#----------------------------------------------------------------------------
 
-%files -n %libsudodevel
-%{_includedir}/sss_idmap.h
-%{_libdir}/libsss_idmap.so
+%package tools
+Summary:	Userspace tools for use with the SSSD
+License:	GPLv3+
+Group:		System/Base
+Requires:	%{name} = %{EVRD}
 
-%files -n %libidmapdevel
-%{_includedir}/sss_sudo.h
-%{_libdir}/pkgconfig/sss_idmap.pc
-%{_libdir}/libsss_sudo.so
-#%{_libdir}/pkgconfig/libsss_sudo.pc
+%description tools
+Provides userspace tools for manipulating users, groups, and nested groups in
+SSSD when using id_provider = local in /etc/sssd/sssd.conf.
 
+Also provides a userspace tool for generating an obfuscated LDAP password for
+use with ldap_default_authtok_type = obfuscated_password.
 
 %files tools -f sssd_tools.lang
 %doc COPYING
@@ -385,11 +189,232 @@ cat sssd_tools.lang
 %{_mandir}/man8/sss_debuglevel.8*
 %{_mandir}/man8/sss_seed.8*
 
+#----------------------------------------------------------------------------
 
-%files client -f sssd_client.lang
-%doc src/sss_client/COPYING src/sss_client/COPYING.LESSER
-/%{_lib}/libnss_sss.so.2
-/%{_lib}/security/pam_sss.so
-%{_libdir}/krb5/plugins/libkrb5/sssd_krb5_locator_plugin.so
-%{_mandir}/man8/pam_sss.8*
-%{_mandir}/man8/sssd_krb5_locator_plugin.8*
+%package -n %{libhbac}
+Summary:	Shared library for %{name}
+Group:		System/Libraries
+
+%description -n %{libhbac}
+Provides the libraries needed by the PAM and NSS stacks to connect to the SSSD
+service.
+
+%files -n %{libhbac}
+%doc COPYING
+%doc src/examples/sssd-example.conf
+%{_libdir}/libipa_hbac.so.%{major}*
+
+#----------------------------------------------------------------------------
+
+%package -n %{libautofs}
+Summary:	A library to allow communication between Autofs and SSSD
+License:	LGPLv3+
+Group:		Development/C
+
+%description -n %{libautofs}
+A utility library to allow communication between Autofs and SSSD
+
+%files -n %{libautofs}
+%doc COPYING
+%doc src/examples/sssd-example.conf
+%{_libdir}/sssd/modules/libsss_autofs.so*
+
+#----------------------------------------------------------------------------
+
+%package -n %{libidmap}
+Summary:	A library to allow communication between idmap and SSSD
+License:	LGPLv3+
+Group:		Development/C
+
+%description -n %{libautofs}
+A utility library to allow communication between Autofs and SSSD
+
+%files -n %{libidmap}
+%doc COPYING
+%doc src/examples/sssd-example.conf
+%{_libdir}/libsss_idmap.so.*
+
+#----------------------------------------------------------------------------
+
+%package -n %{libsudo}
+Summary:	A library to allow communication between SUDO and SSSD
+License:	LGPLv3+
+Group:		Development/C
+
+%description -n %{libsudo}
+A utility library to allow communication between SUDO and SSSD
+
+%files -n %{libsudo}
+%doc COPYING
+%doc src/examples/sssd-example.conf
+%{_libdir}/libsss_sudo.so
+
+#----------------------------------------------------------------------------
+
+%package -n %{libhbacdevel}
+Summary:	FreeIPA HBAC Evaluator library
+License:	LGPLv3+
+Group:		Development/C
+
+%description -n %{libhbacdevel}
+Utility library to validate FreeIPA HBAC rules for authorization requests
+
+%files -n %{libhbacdevel}
+%doc COPYING
+%doc src/examples/sssd-example.conf
+%{_includedir}/ipa_hbac.h
+%{_libdir}/libipa_hbac.so
+%{_libdir}/pkgconfig/ipa_hbac.pc
+
+#----------------------------------------------------------------------------
+
+%package -n %{libautofsdevel}
+Summary:	A library to allow communication between Autofs and SSSD
+License:	LGPLv3+
+Group:		Development/C
+
+%description -n %{libautofsdevel}
+A utility library to allow communication between Autofs and SSSD
+
+#----------------------------------------------------------------------------
+
+%package -n %{libsudodevel}
+Summary:	A library to allow communication between SUDO and SSSD
+License:	LGPLv3+
+Group:		Development/C
+
+%description -n %{libsudodevel}
+A utility library to allow communication between SUDO and SSSD
+
+%files -n %{libsudodevel}
+%doc COPYING
+%doc src/examples/sssd-example.conf
+%{_includedir}/sss_idmap.h
+%{_libdir}/libsss_idmap.so
+
+#----------------------------------------------------------------------------
+
+%package -n %{libidmapdevel}
+Summary:	A library to allow communication between idmap and SSSD
+License:	LGPLv3+
+Group:		Development/C
+
+%description -n %{libidmapdevel}
+A utility library to allow communication between Autofs and SSSD
+
+%files -n %{libidmapdevel}
+%doc COPYING
+%doc src/examples/sssd-example.conf
+%{_includedir}/sss_sudo.h
+%{_libdir}/pkgconfig/sss_idmap.pc
+# %{_libdir}/libsss_sudo.so
+# %{_libdir}/pkgconfig/libsss_sudo.pc
+
+#----------------------------------------------------------------------------
+
+%package -n libhbac-python
+Summary:	Python bindings for the FreeIPA HBAC Evaluator library
+License:	LGPLv3+
+Group:		Development/C
+Requires:	%{libhbac} = %{EVRD}
+
+%description -n libhbac-python
+The libipa_hbac-python contains the bindings so that libipa_hbac can be
+used by Python applications.
+
+%files -n libhbac-python
+%doc COPYING
+%doc src/examples/sssd-example.conf
+%{python2_sitearch}/pyhbac.so
+
+#----------------------------------------------------------------------------
+
+%prep
+%setup -q
+
+%build
+export PYTHON=/usr/bin/python2
+%configure \
+    --with-db-path=%{dbpath} \
+    --with-pipe-path=%{pipepath} \
+    --with-pubconf-path=%{pubconfpath} \
+    --with-init-dir=%{_initrddir} \
+    --with-krb5-rcache-dir=%{_localstatedir}/cache/krb5rcache \
+    --enable-nsslibdir=/%{_lib} \
+    --with-python-bindings \
+    --with-sudo \
+    --enable-pammoddir=/%{_lib}/security \
+    --disable-static \
+    --disable-rpath \
+    --with-test-dir=/dev/shm \
+    --enable-all-experimental-features
+
+
+%make
+
+%install
+
+%makeinstall_std
+
+# Prepare language files
+/usr/lib/rpm/find-lang.sh %{buildroot} sssd
+
+# Prepare empty config file
+mkdir -p %{buildroot}/%{_sysconfdir}/sssd
+touch %{buildroot}/%{_sysconfdir}/sssd/sssd.conf
+
+# Copy default logrotate file
+mkdir -p %{buildroot}/%{_sysconfdir}/logrotate.d
+install -m644 src/examples/logrotate %{buildroot}%{_sysconfdir}/logrotate.d/sssd
+
+# Make sure SSSD is able to run on read-only root
+mkdir -p %{buildroot}/%{_sysconfdir}/rwtab.d
+install -m644 src/examples/rwtab %{buildroot}%{_sysconfdir}/rwtab.d/sssd
+
+# Replace sysv init script with systemd unit file
+rm -f %{buildroot}/%{_initrddir}/%{name}
+mkdir -p %{buildroot}/%{_unitdir}/
+cp src/sysv/systemd/sssd.service %{buildroot}/%{_unitdir}/
+
+# Remove .la files created by libtool
+find %{buildroot} -name "*.la" -exec rm -f {} \;
+
+# Suppress developer-only documentation
+rm -Rf %{buildroot}%{_docdir}/%{name}/doc
+
+# Older versions of rpmbuild can only handle one -f option
+# So we need to append to the sssd.lang file
+for file in `ls %{buildroot}/%{python2_sitelib}/*.egg-info 2> /dev/null`
+do
+    echo %{python2_sitelib}/`basename $file` >> sssd.lang
+done
+
+touch sssd_tools.lang
+for man in `find %{buildroot}/%{_mandir}/??/man?/ -type f | sed -e "s#%{buildroot}/%{_mandir}/##"`
+do
+    lang=`echo $man | cut -c 1-2`
+    case `basename $man` in
+        sss_*)
+            echo \%lang\(${lang}\) \%{_mandir}/${man}\* >> sssd_tools.lang
+            ;;
+        pam_sss*)
+            echo \%lang\(${lang}\) \%{_mandir}/${man}\* >> sssd_client.lang
+            ;;
+        sssd_krb5_locator_plugin*)
+            echo \%lang\(${lang}\) \%{_mandir}/${man}\* >> sssd_client.lang
+            ;;
+        *)
+            echo \%lang\(${lang}\) \%{_mandir}/${man}\* >> sssd.lang
+            ;;
+    esac
+done
+
+# Print these to the rpmbuild log
+echo "sssd.lang:"
+cat sssd.lang
+
+echo "sssd_client.lang:"
+cat sssd_client.lang
+
+echo "sssd_tools.lang:"
+cat sssd_tools.lang

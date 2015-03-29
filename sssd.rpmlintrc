@@ -1,0 +1,13 @@
+# config files in /etc
+addFilter("E: non-standard-dir-perm")
+addFilter("W: not-standard-release-extension")
+addFilter("W: python-naming-policy-not-applied")
+addFilter("W: postin-without-ghost-file-creation")
+# libexec
+addFilter("W: non-standard-dir-in-usr")
+addFilter("W: no-provides")
+addFilter("E: no-prereq-on")
+addFilter("W: no-packager-tag")
+addFilter("E: no-dependency-on")
+addFilter("W: missing-call-to-setgroups")
+addFilter("E: invalid-soname")
