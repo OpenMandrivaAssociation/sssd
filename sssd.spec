@@ -66,7 +66,7 @@ BuildRequires:	pkgconfig(smbclient)
 BuildRequires:	ini_config-devel
 BuildRequires:	nfsidmap-devel
 BuildRequires:	augeas-devel
-BuildRequires:	ndr-devel
+BuildRequires:	pkgconfig(ndr)
 BuildRequires:	cifs-utils-devel
 BuildRequires:	samba-util-devel
 BuildRequires:	samba-devel
