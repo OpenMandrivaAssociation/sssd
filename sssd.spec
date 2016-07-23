@@ -68,7 +68,7 @@ BuildRequires:	nfsidmap-devel
 BuildRequires:	augeas-devel
 BuildRequires:	pkgconfig(ndr)
 BuildRequires:	cifs-utils-devel
-BuildRequires:	samba-util-devel
+BuildRequires:	pkgconfig(samba-util)
 BuildRequires:	samba-devel
 BuildRequires:	samba-common
 BuildRequires:	pkgconfig(libsystemd)
