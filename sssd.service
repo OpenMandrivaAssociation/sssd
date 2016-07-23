@@ -1,0 +1,16 @@
+[Unit]
+Description=System Security Services Daemon
+After=syslog.target
+Before=systemd-user-sessions.service nss-user-lookup.target
+Wants=nss-user-lookup.target
+
+[Service]
+# Source tarball .service file insists on type=forking
+Type=forking
+EnvironmentFile=-/etc/sysconfig/sssd
+ExecStartPre=/bin/bash -c '[ -f /etc/sssd/sssd.conf ] || { echo -e "SSSD does not have default configuration.\nCreate /etc/sssd/sssd.conf file before attempting to start the service.\nYou can use /usr/share/doc/sssd/sssd-example.conf file as a template.\nNote: the file MUST belong to root and have access mode 0600."; exit 1; }'
+ExecStart=/usr/sbin/sssd -D -f
+PIDFile=/var/run/sssd.pid
+
+[Install]
+WantedBy=multi-user.target
