@@ -63,7 +63,8 @@ BuildRequires:	pkgconfig(talloc)
 BuildRequires:	pkgconfig(tdb)
 BuildRequires:	pkgconfig(tevent)
 BuildRequires:	pkgconfig(smbclient)
-BuildRequires:	ini_config-devel
+BuildRequires:	pkgconfig(ini_config)
+BuildRequires:	pkgconfig(path_utils)
 BuildRequires:	nfsidmap-devel
 BuildRequires:	augeas-devel
 BuildRequires:	pkgconfig(ndr)
