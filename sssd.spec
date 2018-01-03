@@ -26,12 +26,12 @@
 
 Summary:	System Security Services Daemon
 Name:		sssd
-Version:	1.12.4
+Version:	1.16.0
 Release:	1
 License:	GPLv3+
 Group:		System/Libraries
-Url:		http://fedorahosted.org/sssd/
-Source0:	https://fedorahosted.org/released/sssd/%{name}-%{version}.tar.gz
+Url:		https://pagure.io/SSSD/sssd
+Source0:	https://releases.pagure.org/SSSD/sssd/%{name}-%{version}.tar.gz
 Source10:	sssd.service
 BuildRequires:	bind-utils
 BuildRequires:	docbook-dtd44-xml
