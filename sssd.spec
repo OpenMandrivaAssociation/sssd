@@ -33,6 +33,11 @@ Group:		System/Libraries
 Url:		https://pagure.io/SSSD/sssd
 Source0:	https://releases.pagure.org/SSSD/sssd/%{name}-%{version}.tar.gz
 Source10:	sssd.service
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 BuildRequires:	bind-utils
 BuildRequires:	docbook-dtd44-xml
 BuildRequires:	docbook-style-xsl
